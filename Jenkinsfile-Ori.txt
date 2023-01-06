@@ -14,6 +14,17 @@ pipeline {
        sh 'echo GIT_COMMIT_SHORT=$(echo $GIT_COMMIT_SHORT) >> .env'
      }
    }
+
+   stage('Build Laravel') {
+      steps {
+       dir('database') {
+         sh 'docker build blogx -f Dockerfile -t blogx:$GIT_COMMIT_SHORT'
+         sh 'docker tag blogx:$GIT_COMMIT_SHORT heryfik/laravel:$GIT_COMMIT_SHORT'
+         sh 'docker push heryfik/laravel:$GIT_COMMIT_SHORT'
+       }
+     }
+   }
+
 	 
 	 stage('Deploy to remote server') {
      steps {
