@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogx-prod
+  namespace: prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blogx-prod
+  template:
+    metadata:
+      labels:
+        app: blogx-prod
+    spec:
+      containers:
+      - name: blogx-prod
+        image: triagungtio/blogx:{{NEW_TAG}}
+        ports:
+        - containerPort: 9000
+        envFrom:
+        - configMapRef:
+            name: blogx-env-prod
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blogx-prod
+  namespace: prod
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 9000
+  selector:
+    app: blogx-prod

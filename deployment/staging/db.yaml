@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service-blogx-staging
+  namespace: staging
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      protocol: TCP
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim-lv-staging
+  namespace: staging
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: staging
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: database
+        image: mysql:5.7
+        args:
+          - "--ignore-db-dir=lost+found"
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+          - name: MYSQL_DATABASE
+            value: blogx
+          - name: MYSQL_USER
+            value: blogx
+          - name: MYSQL_PASSWORD
+            value: blogx
+        ports:
+          - containerPort: 3306
+        volumeMounts:
+        - name: mysql-data-staging  
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-data-staging
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim-lv-staging
