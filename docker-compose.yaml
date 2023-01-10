@@ -13,7 +13,7 @@ services:
         MYSQL_PASSWORD: blogx
   blog_app:
     container_name: blog_app
-    image: heryfik/laravel:latest
+    image: heryfik/blogx2:a848592
     ports:
         - 9000:9000
     depends_on:
