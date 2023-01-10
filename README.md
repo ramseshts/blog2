@@ -6,7 +6,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-## About BlogX
+## About BlogX1
 
 Blog? Bukan. Ini BlogX. Sebuah aplikasi yang dibuat menggunakan [Laravel](https://laravel.com) untuk membuat blog. 
 
