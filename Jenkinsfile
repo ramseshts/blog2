@@ -20,11 +20,10 @@ pipeline {
 
    stage('Build dockerhub') {
      steps {
-       dir('database') {
-         sh 'docker build . -t heryfik/blogx2:$GIT_COMMIT_SHORT'
+		sh 'docker build . -t heryfik/blogx2:$GIT_COMMIT_SHORT'
          sh 'docker tag heryfik/blogx2:$GIT_COMMIT_SHORT heryfik/blogx2:$GIT_COMMIT_SHORT'
          sh 'docker push heryfik/blogx2:$GIT_COMMIT_SHORT'
-       }
+       
      }
    }
    
