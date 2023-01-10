@@ -1,6 +1,6 @@
 pipeline {
  agent any
-	options {
+	 options {
     buildDiscarder(logRotator(numToKeepStr: '5'))   
   }
 
@@ -8,13 +8,27 @@ pipeline {
    GIT_COMMIT_SHORT = sh(returnStdout: true, script: '''echo $GIT_COMMIT | head -c 7''')
  }
 
+
+
  stages {
    stage('Prepare .env') {
      steps {
        sh 'echo GIT_COMMIT_SHORT=$(echo $GIT_COMMIT_SHORT) >> .env'
      }
    }
-	 
+
+
+   stage('Build dockerhub') {
+     steps {
+       dir('database') {
+         sh 'docker build . -t heryfik/blogx2:$GIT_COMMIT_SHORT'
+         sh 'docker tag heryfik/blogx2:$GIT_COMMIT_SHORT heryfik/blogx2:$GIT_COMMIT_SHORT'
+         sh 'docker push heryfik/blogx2:$GIT_COMMIT_SHORT'
+       }
+     }
+   }
+   
+   
 	 stage('Deploy to remote server') {
      steps {
        sshPublisher(publishers: [sshPublisherDesc(configName: 'remote blogx2', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker-compose up -d', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '.env, docker-compose.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
