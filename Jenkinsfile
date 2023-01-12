@@ -29,7 +29,7 @@ pipeline {
    
    	 stage('Deploy to remote server') {
      steps {
-			sshPublisher(publishers: [sshPublisherDesc(configName: 'remote blogx2', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''docker-compose up -d
+			sshPublisher(publishers: [sshPublisherDesc(configName: 'blogx2', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''docker-compose up -d
 			sleep 40
 			docker exec blog_app bash -c \'cd /app;	 php artisan key:generate; php artisan migrate\'''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '.env, docker-compose.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
      }
