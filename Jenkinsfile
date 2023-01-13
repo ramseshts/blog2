@@ -15,9 +15,9 @@ pipeline {
 
    stage('Build laravel') {
      steps {
-         sh 'docker build -t ramses01/laravel:$GIT_COMMIT_SHORT .'
-         sh 'docker tag ramses01/laravel:$GIT_COMMIT_SHORT ramses01/laravel:$GIT_COMMIT_SHORT'
-         sh 'docker push ramses01/laravel:$GIT_COMMIT_SHORT'
+         sh 'docker build -t ramses01/blogx2:$GIT_COMMIT_SHORT .'
+         sh 'docker tag ramses01/blogx2:$GIT_COMMIT_SHORT ramses01/blogx2:$GIT_COMMIT_SHORT'
+         sh 'docker push ramses01/blogx2:$GIT_COMMIT_SHORT'
        
      }
    }
