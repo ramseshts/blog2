@@ -12,7 +12,7 @@ Blog? Bukan. Ini BlogX. Sebuah aplikasi yang dibuat menggunakan [Laravel](https:
 
 Jadi BlogX itu apa?
 
-Ya BlogX itu BlogX2
+Ya BlogX itu BlogX
 
 ## Instalation
 
